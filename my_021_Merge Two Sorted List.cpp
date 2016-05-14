@@ -33,10 +33,7 @@ public:
                 tail = tail->next;
                 l1 = l1->next;}
         }
-        if(l2)
-            tail->next = l2;
-        if(l1)
-            tail->next = l1;
+        tail->next = (l1 ? l1 : l2);
         return head;
     }
 };
