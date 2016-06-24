@@ -10,12 +10,6 @@
 class Solution {
 public:
     int kthSmallest(TreeNode* root, int k) {
-        vector<int> result;
-        result = preorderTraversal(root);
-        sort(result.begin(), result.end());
-        return result[k - 1];
-    }
-    vector<int> preorderTraversal(TreeNode* root) {
         vector<int> res;
         stack<TreeNode*> s;
         TreeNode *p, *q;
@@ -23,15 +17,15 @@ public:
         while(p || !s.empty()) {
             if (p) {
                 s.push(p);
-                res.push_back(p->val);
                 p = p->left;
             }
             else {
                 q = s.top();
+                res.push_back(q->val);
                 s.pop();
                 p = q->right;
             }
         }
-        return res;
+        return res[k-1];
     }
 };
