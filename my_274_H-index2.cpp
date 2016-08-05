@@ -1,10 +1,9 @@
 class Solution {
 public:
     int hIndex(vector<int>& citations) {
-        map<int, int> count;
         sort(citations.begin(), citations.end());
 	    int s = citations.size();
-	    count[0] = s;
+	    vector<int> count(s + 1, s);
 	    int i = 0, j = 1;
 	    while (i < s && j <= s) {
 		if (citations[i] >= j) {
