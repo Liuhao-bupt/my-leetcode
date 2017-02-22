@@ -3,47 +3,29 @@ public:
     int calculate(string s) {
         stack<int> num;
         stack<char> cal;
-        string left="";
-        for (int i = 0; i < s.size(); ){
+        int d = 0;
+        for (int i = 0; i < s.size();i++){
             char it = s[i];
-           	if (it == ' ')
-			    ++i;
-		    else if (it >= '0' && it <= '9') {
-			    left += it;
-			    ++i;
-		    }
-		    else {
-		        if (left != "")
-		            num.push(atoi(left.c_str()));
-			    left = "";
-			    if (cal.empty()) {
+		    if (it >= '0' && it <= '9')
+			    d = d*10 + (it-'0');
+		    if (it == '+' || it == '-' || it == '*' || it == '/' || i == s.size()-1) {
+		        num.push(d);
+		        if (i == s.size() - 1)
+		            break;
+			    d = 0;
+				if ((it == '*' || it == '/') && !cal.empty() && (cal.top() == '+' || cal.top() == '-'))
 				    cal.push(it);
-				    i++;
-			    }
-			    else {
-				    if ((it == '*' || it == '/') && (cal.top() == '+' || cal.top() == '-')) {
-					    cal.push(it);
-					    i++;
-				    }
-				    else
-					    num.push(jisuan(num, cal));
-			    }
+				else {
+				    while(!cal.empty() && !((it == '*' || it == '/') && (cal.top() == '+' || cal.top() == '-')))
+				        num.push(jisuan(num, cal));
+				    cal.push(it);}
 		    }
         }
-	    if (left != "")
-		    num.push(atoi(left.c_str()));
 	    while (!cal.empty())
 		    num.push(jisuan(num, cal));
-	    int ans = num.top();
-	    num.pop();
-	    return ans;
+        return num.top();
     }
     int jisuan(stack<int> &num, stack<char> &cal) {
-        if (cal.empty()){
-            int k = num.top();
-            num.pop();
-            return k;
-        }
         int res = 0;
         int first = num.top();
         num.pop();
